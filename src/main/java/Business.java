@@ -19,4 +19,9 @@ public class Business {
             hotel.owner = player;
         }
     }
+
+    void rentHotel(Hotel hotel) {
+        player.currentMoney -= 50;
+        hotel.owner.currentMoney += 50;
+    }
 }

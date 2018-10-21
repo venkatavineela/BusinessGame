@@ -37,4 +37,19 @@ public class BusinessTest {
         business.buyHotel(hotel);
         assertEquals(150,player.currentMoney);
     }
+
+    @Test
+    public void rentHotelMethodShouldReduce50FromPlayerMoneyAndAdd50ToTheOwnerMoney() {
+        Hotel hotel = new Hotel();
+        Player otherPlayer = new Player();
+        hotel.owner = otherPlayer;
+        int expectedPlayerMoney = player.currentMoney - 50;
+        int expectedOwnerMoney = otherPlayer.currentMoney + 50;
+
+        business.rentHotel(hotel);
+
+        assertEquals(expectedPlayerMoney,player.currentMoney);
+        assertEquals(expectedOwnerMoney,hotel.owner.currentMoney);
+
+    }
 }
