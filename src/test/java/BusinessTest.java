@@ -20,4 +20,21 @@ public class BusinessTest {
         business.enjoyTreasure();
         assertEquals(expectedCurrentMoney,player.currentMoney);
     }
+
+    @Test
+    public void buyHotelMethodShouldReduce200FromPlayerCurrentMoneyAndMakeThePlayerAsHotelOwner() {
+        int expectedCurrentMoney = player.currentMoney - 200;
+        Hotel hotel = new Hotel();
+        business.buyHotel(hotel);
+        assertEquals(expectedCurrentMoney,player.currentMoney);
+        assertEquals(player,hotel.owner);
+    }
+
+    @Test
+    public void playerCurrentMoneyShouldRemainSameIfHeHasNoEnoughMoneyToBuy() {
+        player.currentMoney = 150;
+        Hotel hotel = new Hotel();
+        business.buyHotel(hotel);
+        assertEquals(150,player.currentMoney);
+    }
 }

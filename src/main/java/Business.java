@@ -12,4 +12,11 @@ public class Business {
     void enjoyTreasure() {
         player.currentMoney += 200;
     }
+
+    void buyHotel(Hotel hotel) {
+        if(player.currentMoney >= 200) {
+            player.currentMoney -= 200;
+            hotel.owner = player;
+        }
+    }
 }
