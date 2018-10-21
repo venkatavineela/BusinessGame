@@ -8,4 +8,8 @@ public class Business {
     void payForJail() {
         player.currentMoney -= 150;
     }
+
+    void enjoyTreasure() {
+        player.currentMoney += 200;
+    }
 }
