@@ -6,11 +6,11 @@ import static org.mockito.Mockito.verify;
 public class PlayerTest {
     @Test
     public void playMethodShouldInvokeDoAActionMethodFromBusiness() {
-        Business business = mock(Business.class);
         Player player = new Player();
+        Cell cell = mock(Cell.class);
 
-        player.play(business);
+        player.play(cell);
 
-        verify(business).doAction();
+        verify(cell).doBusiness(player);
     }
 }

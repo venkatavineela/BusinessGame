@@ -8,7 +8,8 @@ public class BusinessHouse {
     private InputOutput io;
     private Player[] players;
     Board board;
-    private Business business;
+    private Cell cell ;
+
 
     public BusinessHouse(InputOutput io, Board board) {
         this.io = io;
@@ -32,44 +33,37 @@ public class BusinessHouse {
         for (int i=0; i<cells.length; i++) {
             switch (cells[i]) {
                 case "E" :
-                    board.add(CellType.EMPTY);
+                    cell = new EmptyCell();
                     break;
                 case "H" :
-                    board.add(CellType.HOTEL);
-                    hotelsList.put(i,new Hotel());
+                    cell = new Hotel();
+                    hotelsList.put(i, (Hotel) cell);
                     break;
                 case "T" :
-                    board.add(CellType.TREASURE);
+                    cell = new Treasure();
                     break;
                 case "J" :
-                    board.add(CellType.JAIL);
+                    cell = new Jail();
                     break;
-                default  :
-                    io.display("Invalid cell type");
             }
+            board.add(cell);
         }
     }
 
     void updatePlayerPosition(Player player, int i) {
         int cellPosition = board.getPlayerPosition(player, i);
-            switch (board.getCellType(cellPosition)) {
-                case HOTEL:
-                    if (hotelsList.get(cellPosition).owner == null) {
-                        business = new BuyHotel(hotelsList.get(cellPosition),player);
-                    } else {
-                        business = new RentHotel(hotelsList.get(cellPosition),player);
-                    }
-                    break;
-                case TREASURE:
-                    business = new EnjoyTreasure(player);
-                    break;
-                case JAIL:
-                    business = new PayForJail(player);
-                    break;
-                case EMPTY:
-                    break;
+        Object obj = board.getCell(cellPosition);
+            if (obj.getClass() == Hotel.class) {
+                    player.play((Hotel) obj);
+            } else if(obj.getClass() == Treasure.class) {
+                player.play((Treasure) obj);
+            }else if(obj.getClass() == Jail.class) {
+
+                player.play((Jail) obj);
+
+            }else if(obj.getClass() == EmptyCell.class) {
+                player.play((EmptyCell) obj);
             }
-            player.play(business);
         }
     }
 

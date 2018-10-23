@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    List<CellType> cells = new ArrayList();
+    List<Cell> cells = new ArrayList();
 
-    void add(CellType cellType) {
-        cells.add(cellType);
+    void add(Cell cell) {
+        cells.add(cell);
     }
 
-    CellType getCellType(int cellPosition) {
-        return cells.get(cellPosition);
+    Cell getCell(int cellPosition) {
+        return cells.get(cellPosition%cells.size());
     }
 
     int getPlayerPosition(Player player, int i) {

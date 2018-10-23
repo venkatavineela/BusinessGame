@@ -6,17 +6,20 @@ public class BoardTest {
     @Test
     public void addMethodShouldAddTheCellTypeToTheListOfCellsOfBoard() {
         Board board = new Board();
-        board.add(CellType.EMPTY);
-        assertTrue(board.cells.contains(CellType.EMPTY));
+        Cell cell = new Jail();
+        board.add(cell);
+        assertTrue(board.cells.contains(cell));
     }
 
     @Test
-    public void getCellTypeMethodShouldReturnCellTypeOfParticularIndexOfCells() {
+    public void getCellTypeMethodShouldReturnCellOfParticularIndexOfCells() {
         Board board = new Board();
-        board.cells.add(CellType.EMPTY);
-        board.cells.add(CellType.TREASURE);
-        assertEquals(CellType.EMPTY,board.getCellType(0));
-        assertEquals(CellType.TREASURE,board.getCellType(1));
+        Cell cell = new Jail();
+        Cell otherCell = new Treasure();
+        board.add(cell);
+        board.add(otherCell);
+        assertEquals(cell,board.getCell(0));
+        assertEquals(otherCell,board.getCell(1));
     }
 
     @Test

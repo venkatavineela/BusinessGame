@@ -2,15 +2,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PayForJailTest {
+public class JailTest {
 
     Player player = new Player();
-    Business business = new PayForJail(player);
+    Cell cell = new Jail();
 
     @Test
-    public void payForJailMethodShouldReduce150FromPlayerCurrentMoney() {
+    public void doBusinessMethodShouldReduce150FromPlayerCurrentMoney() {
         int expectedCurrentMoney = player.currentMoney - 150;
-        business.doAction();
+        cell.doBusiness(player);
         assertEquals(expectedCurrentMoney, player.currentMoney);
     }
 

@@ -2,13 +2,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class EnjoyTreasureTest {
+public class TreasureTest {
     Player player = new Player();
-    Business business = new EnjoyTreasure(player);
+    Cell cell = new Treasure();
         @Test
-        public void enjoyTreasureMethodShouldAdd200ToPlayerCurrentMoney() {
+        public void doBusinessMethodShouldAdd200ToPlayerCurrentMoney() {
             int expectedCurrentMoney = player.currentMoney + 200;
-            business.doAction();
+            cell.doBusiness(player);
             assertEquals(expectedCurrentMoney,player.currentMoney);
         }
 

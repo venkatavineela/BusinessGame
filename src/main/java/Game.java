@@ -37,18 +37,19 @@ class Game {
         int[] diceOutput = getDiceOutput();
         if(diceOutput != null) {
             for (int i = 0; i < diceOutput.length; i++) {
-                house.updatePlayerPosition(players[playerCount],i);
+                house.updatePlayerPosition(players[playerCount],diceOutput[i]);
                 playerCount++;
                 if(playerCount == players.length) {
                     playerCount = 0;
                 }
             }
+            finalScore();
         } else {
             io.display("Enter Correct Dice output");
         }
     }
 
-    void finalScore() {
+    private void finalScore() {
         int maxAmount = players[0].currentMoney;
         int winner = 0;
         for (int i = 0; i < players.length; i++) {
@@ -56,9 +57,10 @@ class Game {
                 maxAmount = players[i].currentMoney;
                 winner = i+1;
             }
-            io.display("Player-" + i+1 + "has total worth" + players[i].currentMoney);
+            int playerCount = i+1;
+            io.display("Player- " + playerCount + " has total worth " +players[i].currentMoney );
         }
-        io.display("players" + winner + "is winner");
+        io.display("Player " + winner + " is winner");
     }
 
 

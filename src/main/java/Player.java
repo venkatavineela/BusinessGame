@@ -5,10 +5,10 @@ class Player {
 
     Player() {
         currentMoney = initialMoney;
-        cellPosition = 0;
+        cellPosition = -1;
     }
 
-    void play(Business business) {
-        business.doAction();
+    void play(Cell cell) {
+        cell.doBusiness(this);
     }
 }
