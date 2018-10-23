@@ -1,40 +1,40 @@
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
 public class GameTest {
 
     @Test
-    public void gameSetUpShouldAskForNumberOfPlayersAndBoardCellsAndDiceOutput() {
+    public void startMethodShouldInvokeSetPlayersMethodFromHouseAndAskForDiceOutputAndShouldDisplayMessageForIncorrectDiceOutput() {
         InputOutput io = mock(InputOutput.class);
-        when(io.getInput()).thenReturn("2").thenReturn("E,H,T,E,E,J,E,T,H").thenReturn("2,4,5,3,7,9,4,5,8,2,6,4,7,3,7,8,11,6,12,5");
-        Game game = new Game(io);
-         verify(io).display("Enter number of players");
-         verify(io).display("Enter board cells with type");
-         verify(io).display("Enter Dice output");
-    }
+        BusinessHouse house = mock(BusinessHouse.class);
+        Game game = new Game(io,house);
+        Player[] players = new Player[2];
+        when(house.setPlayers()).thenReturn(players);
+        when(io.getInput()).thenReturn("20,4,5,3,7,9,4,5,8,2,6,4,7,3,7,8,11,6,12,");
 
-    @Test
-    public void gameSetUpShouldReturnInvalidCellTypeMessageWhenValidCellTypeIsNotGiven() {
-        InputOutput io = mock(InputOutput.class);
-        when(io.getInput()).thenReturn("2").thenReturn("E,H,T,E,E,J,E,T,H,A").thenReturn("2,4,5,3,7,9,4,5,8,2,6,4,7,3,7,8,11,6,12,5");
-        Game game = new Game(io);
-        verify(io).display("Enter number of players");
-        verify(io).display("Enter board cells with type");
-        verify(io).display("Invalid cell type");
-    }
+        game.start();
 
-    @Test
-    public void gameSetUpShouldReturnInvalidDiceOutputWhenValidOutputIsNotGiven() {
-        InputOutput io = mock(InputOutput.class);
-        when(io.getInput()).thenReturn("2").thenReturn("E,H,T,E,E,J,E,T,H").thenReturn("2,4,5,3,7,9,4,5,8,2,6,4,7,3,7,8,11,6,12,13");
-        Game game = new Game(io);
-        verify(io).display("Enter number of players");
-        verify(io).display("Enter board cells with type");
         verify(io).display("Enter Dice output");
-        verify(io).display("Invalid dice output");
+        verify(io).display("Enter Correct Dice output");
+    }
+
+    @Test
+    public void startMethodShouldAskForDiceOutputAndShouldInvokeUpdatePlayerPositionFromBusinessHouse() {
+        InputOutput io = mock(InputOutput.class);
+        BusinessHouse house = mock(BusinessHouse.class);
+        Game game = new Game(io,house);
+        Player[] players = new Player[2];
+        int i = 0;
+        when(house.setPlayers()).thenReturn(players);
+        when(io.getInput()).thenReturn("2,4,5,3,7,9,4,5,8,2,6,4,7,3,7,8,11,6,12,5");
+
+        game.start();
+
+        verify(io).display("Enter Dice output");
+        verify(house).updatePlayerPosition(players[i],i);
     }
 }

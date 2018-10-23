@@ -1,66 +1,22 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
-public class Game {
-    private List<CellType> board = new ArrayList();
+class Game {
     private Map<Integer,Hotel> hotelsList = new HashMap<>();
     private InputOutput io;
-    private Player[] player;
-    private Business[] business;
-    private int diceOutput[];
+    private Player[] players;
+    BusinessHouse house;
 
-    public Game(InputOutput io) {
+    Game(InputOutput io,BusinessHouse house) {
         this.io = io;
-        gameSetUp();
+        this.house = house;
     }
 
-    void gameSetUp() {
-        setPlayers();
-        setBoard();
-        getDiceOutput();
-    }
-
-     private void setBoard() {
-        io.display("Enter board cells with type");
-        String cells[] = io.getInput().split(",");
-        for (int i=0; i<cells.length; i++) {
-            switch (cells[i]) {
-                case "E" :
-                    board.add(CellType.EMPTY);
-                    break;
-                case "H" :
-                    board.add(CellType.HOTEL);
-                    hotelsList.put(i,new Hotel());
-                    break;
-                case "T" :
-                    board.add(CellType.TREASURE);
-                    break;
-                case "J" :
-                    board.add(CellType.JAIL);
-                    break;
-                default  :
-                    io.display("Invalid cell type");
-            }
-        }
-    }
-
-    private void setPlayers() {
-        io.display("Enter number of players");
-        int numberOfPlayers = parseInt(io.getInput());
-        player = new Player[numberOfPlayers];
-        business = new Business[numberOfPlayers];
-        for (int i=0; i<numberOfPlayers; i++) {
-            player[i] = new Player();
-            business[i] = new Business(player[i]);
-        }
-    }
-
-    private void getDiceOutput() {
+    private int[] getDiceOutput() {
         io.display("Enter Dice output");
+         int[] diceOutput;
         String diceOutputString[] = io.getInput().split(",");
         diceOutput = new int[diceOutputString.length];
         for (int i = 0; i < diceOutputString.length; i++) {
@@ -69,8 +25,41 @@ public class Game {
                 diceOutput[i] = output;
             }
             else {
-                io.display("Invalid dice output");
+                return null;
             }
         }
+        return diceOutput;
     }
+
+    void start() {
+        int playerCount = 0;
+        players = house.setPlayers();
+        int[] diceOutput = getDiceOutput();
+        if(diceOutput != null) {
+            for (int i = 0; i < diceOutput.length; i++) {
+                house.updatePlayerPosition(players[playerCount],i);
+                playerCount++;
+                if(playerCount == players.length) {
+                    playerCount = 0;
+                }
+            }
+        } else {
+            io.display("Enter Correct Dice output");
+        }
+    }
+
+    void finalScore() {
+        int maxAmount = players[0].currentMoney;
+        int winner = 0;
+        for (int i = 0; i < players.length; i++) {
+            if(maxAmount < players[i].currentMoney) {
+                maxAmount = players[i].currentMoney;
+                winner = i+1;
+            }
+            io.display("Player-" + i+1 + "has total worth" + players[i].currentMoney);
+        }
+        io.display("players" + winner + "is winner");
+    }
+
+
 }
